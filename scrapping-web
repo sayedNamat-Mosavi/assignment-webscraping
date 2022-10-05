@@ -1,0 +1,18 @@
+import panda as pd
+from bs4 import BeautifulSoup
+from selenium import webdriver
+
+driver = webdriver.chrome(executable_path='C:/Users/Namat/Downloads/chromedriver_win32/chromedriver.exe')
+driver.get('https://www.afintl.com/')
+results = []
+content = driver.page_soursed
+soup = BeautifulSoup(content)
+driver.quit()
+
+for element in soup.findAll(attrs='jsx-241484867 hero-card-headline'):
+    name = element.find('h2')
+    if name not in results:
+        results.append(name.text)
+df = pd.DataFrame({'names':results})
+df.to.csv('names.csv' , index=False, encoding='Utf-8')
+
